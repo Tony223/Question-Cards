@@ -1,0 +1,114 @@
+﻿ @model IndexPageViewModel
+
+@{
+    ViewBag.Title = "WebSite";
+    ViewBag.Description = "This Site will help you to resolve your problem";
+    ViewBag.Tags = " answers questions music education ";
+    var base_path = Context.Request.PathBase;
+}
+
+@*<h2>Home Page</h2>
+
+    <img src="~/content/static/939537.jpg" width="500" />*@
+
+@*<div class="main-img">
+        <span class="title">Amazing Site</span>
+        <form asp-controller="Home" asp-action="Index" method="get">
+            <input type="hidden" name="pageNumber" value="@Model.PageNumber" />
+            <input type="hidden" name="category" value="@Model.Category" />
+            <input class="search" type="text" name="search" placeholder="Search Blog" value="@Model.Search"/>
+            <button class="submit-btn">Search</button>
+        </form>
+    </div>*@
+
+@*<div class="card-columns">*@
+@*<ul>
+        @foreach(var post in Model)
+        {
+        <li>
+            <a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">
+                @post.Title
+            </a>
+        </li>
+        }
+    </ul>*@
+
+@*@foreach (var post in Model.Posts)
+    {
+        <div class="card">
+            @{ var imagePath = $"{base_path}/Image/{post.Image}"; }
+            <a class="post" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">
+                <img src="@imagePath" />
+                <span class="title">
+                    @post.Title
+                </span>
+            </a>
+        </div>
+    }*@
+
+
+@if (Model.Posts.Count() == 0)
+{
+    <div class="container" style="padding-top:15rem">
+        <h1>Вопросы не найдены</h1>
+    </div>
+}
+else
+{
+    <div class="container" style="padding-bottom:3rem">
+        <div class="card-columns" style="margin: 20px; padding-top: 3rem;">
+            @foreach (var post in Model.Posts)
+            {
+                var image = post.Image == null ? "question_mark.jpg" : $"{post.Image}";
+                <div class="card" style="width: 14rem;">
+                    <img class="card-img-top" src="~/content/blog/@image">
+                    <div class="card-body">
+                        <h5 class="card-title">@post.Title</h5>
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">Ответить</a>
+                    </div>
+                </div>
+            }
+            @*@foreach (var post in Model.Posts)
+                {
+                    var image = post.Image == "" ? "question_mark.jpg" : $"{post.Image}";
+                    <div class="card" style="width: 14rem;">
+                        <img class="card-img-top" src="~/content/blog/@image" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@post.Title</h5>
+                            <a class="btn btn-primary" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">Ответить</a>
+                        </div>
+                    </div>*@
+            @*var imagePath = $"{base_path}/Image/{post.Image}";
+                    <div class="card">
+                        <div class="card-img-top" src="~/content/blog/@post.Image">
+                            <div class="card-body">
+                                <h5 class="card-title">@post.Title</h5>
+                                <a class="btn btn-primary" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">Answer</a>
+                            </div>
+                        </div>
+                    </div>
+                }*@
+        </div>
+    </div>
+}
+
+<div class="pages">
+    @if (Model.PageNumber > 1)
+    {
+        <a asp-action="Index" asp-controller="Home" asp-route-category="@Model.Category"
+           asp-route-pageNumber="@(Model.PageNumber - 1)">ᐊ</a>
+    }
+
+    @for (int i = 1; i < Model.PageCount; i++)
+    {
+        string activeClass = i == Model.PageNumber ? "active" : "";
+        <a class="@activeClass" asp-action="Index" asp-controller="Home" asp-route-category="@Model.Category"
+           asp-route-pageNumber="@i">@i</a>
+    }
+
+    @if (Model.CanGoNextPage)
+    {
+        <a asp-action="Index" asp-controller="Home" asp-route-category="@Model.Category"
+           asp-route-pageNumber="@(Model.PageNumber + 1)">ᐅ</a>
+    }
+</div>

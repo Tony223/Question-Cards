@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.Description" />
+    <meta name="keywords" content="@ViewBag.Keywords" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <environment include="Development">
+        <link href="~/css/site.css" rel="stylesheet" />
+    </environment>
+
+    <environment include="Production">
+        <link href="~/css/site.min.css" rel="stylesheet" />
+    </environment>
+</head>
+
+<body class="bg-light">
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index" style="margin-bottom:5px">Question Cards</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-controller="Home" asp-action="Edit">Задайте свой вопрос</a>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Panel" asp-action="Index">Admin Panel</a>
+                            }
+
+                            <a asp-controller="Auth" asp-action="Logout">Выйти</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Auth" asp-action="Login">Войти</a>
+                        }
+                    </li>
+                    <li class="nav-item active dropdown" style="margin-top: 7px">
+                        <a class="nav-link dropdown-toggle" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Категории</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown05">
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Index" asp-route-category="Another">Другое</a>
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Index" asp-route-category="Education">Образование</a>
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Index" asp-route-category="Music">Музыка</a>
+                        </div>
+                    </li>
+                </ul>
+                @*<form class="form-inline my-2 my-md-0" asp-controller="Home" asp-action="Index" method="get">
+                        <input type="hidden" name="pageNumber" value="@Model.PageNumber" />
+                        <input type="hidden" name="category" value="@Model.Category" />
+                        <input class="form-control" type="text" name="search" placeholder="Поиск" value="@Model.Search">
+                    </form>*@
+            </div>
+        </nav>
+    </header>
+
+    <div style="padding-bottom: 4rem!important">
+        @RenderBody()
+    </div>
+    @RenderSection("scripts", false)
+
+    <footer class="container" style="padding-top: 3rem!important">
+        <p>© 2020 Company, Inc.</p>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

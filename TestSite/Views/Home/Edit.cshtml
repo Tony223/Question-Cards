@@ -1,0 +1,84 @@
+﻿@model PostViewModel
+
+@{
+
+}
+@*<link href="~/lib/Trumbowyg-master/dist/ui/trumbowyg.min.css" rel="stylesheet" />*@
+@*<div class="container">
+        <form asp-controller="Home" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input asp-for="Id" type="hidden" />
+            <div>
+                <label>Title</label>
+                <input asp-for="Title" />
+            </div>
+            <div>
+                <label>Description</label>
+                <input asp-for="Description" />
+            </div>
+            <div>
+                <label>Tags</label>
+                <input asp-for="Tags" />
+            </div>
+            <div>
+                <label>Category</label>
+                <select asp-for="Category">
+                    <option value="Education">Education</option>
+                    <option value="Music">Music</option>
+                    <option value="Another">Another</option>
+                </select>
+            </div>
+            <div>
+                <label>Body</label>
+                <textarea rows="10" cols="50" asp-for="Body"></textarea>
+                @*<textarea id="editor" asp-for="Body"></textarea>*?@
+            </div>
+            <div>
+                <label>Image</label>
+                <input asp-for="CurrentImage" type="hidden" />
+                <input asp-for="Image" />
+            </div>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+*@
+
+<div style="margin-left: 30%; padding-top:5rem">
+    <form asp-controller="Home" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" type="hidden" />
+        <div class="form-group">
+            <label>Title</label>
+            <input asp-for="Title" style="width:400px"/>
+        </div>
+        <div class="mb-3">
+            <label>Tags</label>
+            <input asp-for="Tags" style="width:400px"/>
+        </div>
+        <div>
+            <label>Category</label>
+            <select asp-for="Category">
+                <option value="Another">Другое</option>
+                <option value="Education">Образование</option>
+                <option value="Music">Музыка</option>
+            </select>
+        </div>
+        <div class="mb-3" style="margin-left:3%; padding-top:1rem">
+            <textarea rows="10" cols="50" asp-for="Body" placeholder="Опишите свой вопрос..."></textarea>
+        </div>
+        <div>
+            <label>Image</label>
+            <input asp-for="CurrentImage" type="hidden" />
+            <input asp-for="Image" />
+        </div>
+        <div style="padding-top: 2rem">
+            <input type="submit" value="Отправить" style="justify-content: center; margin-left:15%" />
+        </div>
+    </form>
+</div>
+
+@*@section scripts {
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/lib/Trumbowyg-master/dist/trumbowyg.min.js"></script>
+    <script>
+        $('#editor').trumbowyg();
+    </script>
+    }*@

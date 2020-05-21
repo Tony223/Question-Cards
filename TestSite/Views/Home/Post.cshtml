@@ -1,0 +1,82 @@
+﻿@model Post
+
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.Description = Model.Description;
+    ViewBag.Tags = $"{Model.Tags?.Replace(",", " ")} {Model.Category}";
+    var base_path = Context.Request.PathBase;
+}
+
+@*<h2>@Model.Title</h2>
+
+    @if (!String.IsNullOrEmpty(Model.Image))
+    {
+        var imagePath = $"/Image/{Model.Image}";
+        <img src="@imagePath" width="500"/>
+    }
+
+    <p>@Model.Body</p>*@
+
+<div class="container" style="padding-top:5rem">
+    <div class="post no-shadow">
+        @if (!String.IsNullOrEmpty(Model.Image))
+        {
+            var imagePath = $"{base_path}/Image/{Model.Image}";
+            <img src="@imagePath" />
+            <span class="title">@Model.Title</span>
+        }
+        else
+        {
+            var imagePath = $"{base_path}/Image/background.jpg";
+            <img src="@imagePath" />
+            <span class="title">@Model.Title</span>
+        }
+    </div>
+    <div class="post-body">
+        @Html.Raw(Model.Body)
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h3 style="padding-top:2rem; padding-bottom:2rem">Ответы</h3>
+
+        <div class="comment-section">
+
+            @{
+                await Html.RenderPartialAsync("_MainComment", new CommentViewModel { PostId = Model.Id, MainCommentId = 0, Creator = User.Identity.Name });
+            }
+            <ul id="messagesList">
+                @foreach (var com in Model.Comments)
+                {
+                    <p>
+                        <div>@com.Creator -- @com.Created</div>
+                        <div style="margin-left: 12px">@com.Message</div>
+                    </p>
+                @*<div style="margin-left: 20px">
+                    <ul id="messagesList">
+                        @foreach (var subCom in com.SubComments)
+                        {
+                            <p>
+                                <div>@subCom.Creator -- @subCom.Created</div>
+                                <div>@subCom.Message</div>
+                            </p>
+                        }
+                    </ul>
+                        @{
+                            await Html.RenderPartialAsync("_MainComment", new CommentViewModel { PostId = Model.Id, MainCommentId = com.Id, Creator = User.Identity.Name });
+                        }
+                </div>*@
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div>
+            <a class="text-primary" asp-action="login" asp-controller="Auth">Зарегистрируйтесь</a>, чтобы ответить на вопрос.
+        </div>
+    }
+</div>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>

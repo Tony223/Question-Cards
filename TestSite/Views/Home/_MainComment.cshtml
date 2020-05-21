@@ -1,0 +1,31 @@
+﻿@model CommentViewModel
+
+@{
+
+}
+
+@*<link href="~/lib/Trumbowyg-master/dist/ui/trumbowyg.min.css" rel="stylesheet" enctype="multipart/form-data"/>*@
+
+<div>
+    <form method="post" asp-controller="Home" asp-action="Comment">
+        <input asp-for="PostId" type="hidden" />
+        <input asp-for="MainCommentId" type="hidden" />
+        <input asp-for="Creator" type="hidden" id="username">
+        @*<textarea id="editor" asp-for="Message" placeholder="Type your answer..."></textarea>*@
+        <textarea cols="40" rows="3" asp-for="Message" id="textMessage" placeholder="Введите свой ответ..."></textarea>
+        <input type="submit" id="sendButton" value="Отправить" />
+        @*<input asp-for="Message" placeholder="Type your answer..." />*@
+        <button class="submit-btn" type="submit">Ответить</button>
+    </form>
+</div>
+
+@*@section scripts {
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="~/lib/Trumbowyg-master/dist/trumbowyg.min.js"></script>
+        <script>
+            $('#editor').trumbowyg();
+        </script>
+    }*@
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
